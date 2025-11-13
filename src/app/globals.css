@@ -1,4 +1,235 @@
+
+/* Definição de Cores (Globais) */
 :root {
+  --color-primary: #48CFCB;
+  /* Turquesa vibrante (cabeçalho/botão) */
+  --color-background: #A7E8E4;
+  /* Turquesa/ciano claro (fundo da tela) */
+  --color-card-background: #ffffff;
+  /* Branco (fundo do cartão) */
+  --color-text-dark: #333333;
+  --color-border: #cccccc;
+}
+
+/* Estilos Globais */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* **ADICIONADO:** Container principal (simulando o <body> para o React) */
+.app-container {
+  background-color: var(--color-background);
+  color: var(--color-text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cabeçalho */
+.header {
+  background-color: var(--color-primary);
+  width: 100%;
+  padding: 15px 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  color: var(--color-card-background);
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* Conteúdo Principal (Centralização) */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  align-items: center;
+  /* Centraliza verticalmente */
+  padding: 20px;
+}
+
+/* Cartão de Cadastro */
+.card-cadastro {
+  background-color: var(--color-card-background);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.5em;
+  margin-bottom: 25px;
+  color: var(--color-text-dark);
+  font-weight: normal;
+}
+
+/* Formulário e Campos de Input */
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.input-group input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Botão de Cadastro */
+.btn-cadastro {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-cadastro:hover {
+  background-color: #38c4c4;
+}
+
+/* Adicione esta classe ao seu globals.css */
+.card-title-login {
+  font-size: 1.2em;
+  /* Um pouco menor que o título de Cadastro */
+  margin-bottom: 25px;
+  color: var(--color-primary);
+  /* Use a cor turquesa para o texto 'Entre' */
+  font-weight: bold;
+  text-transform: uppercase;
+  /* Opcional: se quiser dar mais destaque */
+}
+
+/* Adicione esta classe ao seu globals.css */
+.btn-entrar {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  /* Adiciona mais espaço no topo do botão */
+}
+
+.btn-entrar:hover {
+  background-color: #38c4c4;
+  /* Tom mais escuro para hover */
+}
+
+/* ------------------- Olhinho da Senha ------------------- */
+
+/* Container para posicionamento relativo do ícone */
+.password-input-wrapper {
+    position: relative; 
+    display: flex;
+    align-items: center; 
+}
+
+/* Garante espaço para o botão dentro do input */
+.password-input-wrapper input {
+    padding-right: 40px; 
+}
+
+/* Botão do Ícone (Olho) */
+.toggle-password-btn {
+    position: absolute;
+    right: 10px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-secondary); 
+    padding: 0;
+    line-height: 1; 
+    opacity: 0.7; 
+    transition: opacity 0.2s ease, color 0.2s;
+}
+
+.toggle-password-btn:hover {
+    opacity: 1; 
+    color: var(--color-primary);
+}
+
+/* ------------------- Mensagens de Feedback (Substituindo alert) ------------------- */
+.message {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: var(--color-error);
+    border: 1px solid #f5c6cb;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: var(--color-success);
+    border: 1px solid #c3e6cb;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+    margin-left: 1rem;
+    line-height: 1;
+    opacity: 0.8;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+.img{
+  width: 120px; 
+  height: 120px;
+   :root{
   --background: #ffffff;
   --foreground: #171717;
 }

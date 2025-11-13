@@ -1,117 +1,189 @@
-"use client";
+'use client';
+import React, { useState, FormEvent } from 'react';
+import { Eye, EyeOff, X } from 'lucide-react'; // Importando ícones para o "olho" e fechar
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-
-export default function Cadastro() {
-  const router = useRouter();
-  const [telefone, setTelefone] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState("");
-  const [mensagem, setMensagem] = useState("");
-
-  const handleCadastro = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // ✅ Verificação de senhas iguais antes de enviar
-    if (senha !== confirmarSenha) {
-      setMensagem("As senhas não coincidem!");
-      return;
-    }
-
-    try {
-      const response = await axios.post("http://localhost:5000/cadastro", {
-        telefone,
-        email,
-        senha,
-      });
-
-      if (response.status === 201) {
-        setMensagem("Cadastro realizado com sucesso!");
-        setTimeout(() => router.push("/"), 1500);
-      }
-    } catch (error) {
-      console.error(error);
-      setMensagem("Erro ao cadastrar. Tente novamente.");
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-sm">
-        <h1 className="text-2xl font-semibold text-center mb-6 text-[#107A73]">
-          Cadastro
-        </h1>
-
-        <form onSubmit={handleCadastro} className="flex flex-col space-y-4">
-          <input
-            type="email"
-            placeholder="E-mail"
-            className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#48CFCB]"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          <input
-            type="text"
-            placeholder="Telefone"
-            className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#48CFCB]"
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-            required
-          />
-
-          <input
-            type="password"
-            placeholder="Senha"
-            className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#48CFCB]"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-          />
-
-          <input
-            type="password"
-            placeholder="Confirmar Senha"
-            className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#48CFCB]"
-            value={confirmarSenha}
-            onChange={(e) => setConfirmarSenha(e.target.value)}
-            required
-          />
-
-          {mensagem && (
-            <p
-              className={`text-center text-sm ${
-                mensagem.includes("sucesso")
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
-            >
-              {mensagem}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className="bg-[#48CFCB] text-white py-2 rounded-lg hover:bg-[#107A73] transition"
-          >
-            Cadastrar
-          </button>
-        </form>
-
-        <p className="text-sm text-center mt-4">
-          Já tem conta?{" "}
-          <button
-            onClick={() => router.push("/")}
-            className="text-[#107A73] hover:underline"
-          >
-            Fazer login
-          </button>
-        </p>
-      </div>
-    </div>
-  );
+interface FormData {
+    email: string;
+    telefone: string;
+    senha: string;
+    confirmarSenha: string;
 }
+
+const Cadastro: React.FC = () => {
+    const [formData, setFormData] = useState<FormData>({
+        email: '',
+        telefone: '',
+        senha: '',
+        confirmarSenha: '',
+    });
+    
+    // ➡️ NOVOS ESTADOS PARA VISIBILIDADE DE SENHA
+    const [showSenha, setShowSenha] = useState(false);
+    const [showConfirmarSenha, setShowConfirmarSenha] = useState(false);
+
+    // ➡️ NOVOS ESTADOS PARA MENSAGENS E ERROS (substituindo o alert())
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        // Limpa erros ao digitar novamente
+        if (passwordError) setPasswordError(null);
+        if (successMessage) setSuccessMessage(null);
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    // ➡️ FUNÇÕES PARA ALTERNAR VISIBILIDADE
+    const toggleSenhaVisibility = () => {
+        setShowSenha(prev => !prev);
+    };
+
+    const toggleConfirmarSenhaVisibility = () => {
+        setShowConfirmarSenha(prev => !prev);
+    };
+
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        setPasswordError(null); // Limpa erros anteriores
+        setSuccessMessage(null); // Limpa sucesso anterior
+        
+        if (formData.senha !== formData.confirmarSenha) {
+            setPasswordError("As senhas não coincidem. Por favor, verifique.");
+            return;
+        }
+        
+        console.log("Dados de Cadastro:", formData);
+        
+        setSuccessMessage("✅ Cadastro realizado com sucesso!");
+        // Opcional: Limpar formulário após sucesso
+        setFormData({
+            email: '',
+            telefone: '',
+            senha: '',
+            confirmarSenha: '',
+        });
+    };
+
+    return (
+        <div className="app-container">
+            <header className="header">
+                <img src="/img/Nailo1.png" alt="Descrição" 
+                width={50}height={50}/>
+            </header>
+            
+            <main className="main-content">
+                <div className="card-cadastro">
+                    <h2 className="card-title-login">Cadastro</h2>
+                    
+                    {/* Mensagem de Erro (Substituindo alert) */}
+                    {passwordError && (
+                        <div className="message error-message">
+                            {passwordError}
+                            <button className="close-btn" onClick={() => setPasswordError(null)}><X size={16} /></button>
+                        </div>
+                    )}
+                    
+                    {/* Mensagem de Sucesso (Substituindo alert) */}
+                    {successMessage && (
+                        <div className="message success-message">
+                            {successMessage}
+                            <button className="close-btn" onClick={() => setSuccessMessage(null)}><X size={16} /></button>
+                        </div>
+                    )}
+
+                    <form className="cadastro-form" onSubmit={handleSubmit}>
+                        
+                        {/* Campo Email */}
+                        <div className="input-group">
+                            <label htmlFor="email">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                value={formData.email}
+                                onChange={handleChange}
+                                required 
+                            />
+                        </div>
+                        
+                        {/* Campo Telefone */}
+                        <div className="input-group">
+                            <label htmlFor="telefone">Telefone:</label>
+                            <input 
+                                type="tel" 
+                                id="telefone" 
+                                name="telefone" 
+                                value={formData.telefone}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        
+                        {/* Campo Senha - 🔑 Com Olhinho */}
+                        <div className="input-group">
+                            <label htmlFor="senha">Senha</label>
+                            <div className="password-input-wrapper">
+                                <input 
+                                    // ➡️ TIPO DINÂMICO
+                                    type={showSenha ? 'text' : 'password'} 
+                                    id="senha" 
+                                    name="senha" 
+                                    value={formData.senha}
+                                    onChange={handleChange}
+                                    required 
+                                />
+                                <button 
+                                    type="button" 
+                                    onClick={toggleSenhaVisibility} 
+                                    className="toggle-password-btn"
+                                    aria-label={showSenha ? "Esconder senha" : "Mostrar senha"}
+                                >
+                                    {/* ➡️ ÍCONE DINÂMICO */}
+                                    {showSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
+                        </div>
+                        
+                        {/* Campo Confirmar Senha - 🔑 Com Olhinho */}
+                        <div className="input-group">
+                            <label htmlFor="confirmarSenha">Confirmar senha</label>
+                            <div className="password-input-wrapper">
+                                <input 
+                                    // ➡️ TIPO DINÂMICO
+                                    type={showConfirmarSenha ? 'text' : 'password'} 
+                                    id="confirmarSenha" 
+                                    name="confirmarSenha" 
+                                    value={formData.confirmarSenha}
+                                    onChange={handleChange}
+                                    required 
+                                />
+                                <button 
+                                    type="button" 
+                                    onClick={toggleConfirmarSenhaVisibility} 
+                                    className="toggle-password-btn"
+                                    aria-label={showConfirmarSenha ? "Esconder senha" : "Mostrar senha"}
+                                >
+                                    {/* ➡️ ÍCONE DINÂMICO */}
+                                    {showConfirmarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" className="btn-cadastro">Cadastrar</button>
+
+                        <p className="register-text">
+                        Já tem conta? 
+                        <a href="/" className="register-link">Entre</a> 
+                        </p>
+                    </form>
+                </div>
+            </main>
+        </div>
+    );
+}
+
+export default Cadastro;
