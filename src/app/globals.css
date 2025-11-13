@@ -1,91 +1,150 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* === Cores do tema === */
+/* Definição de Cores (Globais) */
 :root {
-  --verde-agua: #A7E8E4;
-  /* Fundo principal */
-  --verde-jade: #48CFCB;
-  /* Botões e elementos ativos */
-  --verde-escuro: #107A73;
-  /* Texto em destaque / ícones */
-  --off-white: #FAFAFA;
-  /* Fundo de cartões */
-  --rosa-cha: #F7CAC9;
-  /* Detalhes sutis */
+  --color-primary: #4de6e6;
+  /* Turquesa vibrante (cabeçalho/botão) */
+  --color-background: #a8ecec;
+  /* Turquesa/ciano claro (fundo da tela) */
+  --color-card-background: #ffffff;
+  /* Branco (fundo do cartão) */
+  --color-text-dark: #333333;
+  --color-border: #cccccc;
 }
 
-/* === Aplicação geral === */
-body {
-  background-color: var(--verde-agua);
-  color: var(--verde-escuro);
-  font-family: "Poppins", sans-serif;
+/* Estilos Globais */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
-/* === Botões === */
-button {
-  background-color: var(--verde-jade);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+/* **ADICIONADO:** Container principal (simulando o <body> para o React) */
+.app-container {
+  background-color: var(--color-background);
+  color: var(--color-text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-button:hover {
-  background-color: var(--verde-escuro);
-}
-
-/* === Cartões (caixas de conteúdo) === */
-.card {
-  background-color: var(--off-white);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-}
-
-/* === Inputs === */
-input {
-  background-color: var(--off-white);
-  border: 1px solid var(--verde-jade);
-  border-radius: 8px;
-  padding: 8px 12px;
+/* Cabeçalho */
+.header {
+  background-color: var(--color-primary);
   width: 100%;
+  padding: 15px 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  color: var(--color-card-background);
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* Conteúdo Principal (Centralização) */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  align-items: center;
+  /* Centraliza verticalmente */
+  padding: 20px;
+}
+
+/* Cartão de Cadastro */
+.card-cadastro {
+  background-color: var(--color-card-background);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.5em;
+  margin-bottom: 25px;
+  color: var(--color-text-dark);
+  font-weight: normal;
+}
+
+/* Formulário e Campos de Input */
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.input-group input:focus {
+  border-color: var(--color-primary);
   outline: none;
-  transition: border 0.2s ease;
+  box-shadow: 0 0 0 1px var(--color-primary);
 }
 
-input:focus {
-  border-color: var(--verde-escuro);
-}
-
-/* === Links e botões secundários === */
-.link {
-  color: var(--verde-escuro);
-  text-decoration: underline;
+/* Botão de Cadastro */
+.btn-cadastro {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
-.link:hover {
-  color: var(--rosa-cha);
+.btn-cadastro:hover {
+  background-color: #38c4c4;
+}
 
-  /* Cabeçalho */
-    .header {
-      background-color: var(--verde-jade);
-      color: var(--verde-escuro);
-      display: flex;
-      align-items: center;
-      padding: 10px 30px;
-    }
-  
-    /* Logo */
-    .logo {
-      background-color: var(--rosa-cha);
-      color: #333;
-      padding: 4px 10px;
-      border-radius: 5px;
-      font-weight: bold;
-    }
+/* Adicione esta classe ao seu globals.css */
+.card-title-login {
+  font-size: 1.2em;
+  /* Um pouco menor que o título de Cadastro */
+  margin-bottom: 25px;
+  color: var(--color-primary);
+  /* Use a cor turquesa para o texto 'Entre' */
+  font-weight: bold;
+  text-transform: uppercase;
+  /* Opcional: se quiser dar mais destaque */
+}
+
+/* Adicione esta classe ao seu globals.css */
+.btn-entrar {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  /* Adiciona mais espaço no topo do botão */
+}
+
+.btn-entrar:hover {
+  background-color: #38c4c4;
+  /* Tom mais escuro para hover */
 }

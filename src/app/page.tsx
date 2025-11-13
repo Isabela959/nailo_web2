@@ -1,77 +1,94 @@
-"use client";
+'use client';
+import { Link } from 'lucide-react';
+import React, { useState, FormEvent } from 'react';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-
-export default function Login() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [erro, setErro] = useState("");
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3000/login", {
-        email,
-        senha,
-      });
-
-      if (response.status === 200) {
-        router.push("/home"); // muda pra sua rota de dashboard ou similar
-      }
-    } catch (err) {
-      setErro("Email ou senha incorretos");
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-sm">
-        <h1 className="text-2xl font-semibold text-center mb-6">Login</h1>
-
-        <form onSubmit={handleLogin} className="flex flex-col space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="border rounded-lg p-2"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          <input
-            type="password"
-            placeholder="Senha"
-            className="border rounded-lg p-2"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-          />
-
-          {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}
-
-          <button
-            type="submit"
-            className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-            onClick={() => router.push("/home")}
-          >
-            Entrar
-            
-          </button>
-        </form>
-
-        <p className="text-sm text-center mt-4">
-          Não tem uma conta?{" "}
-          <button
-            onClick={() => router.push("/cadastro")}
-            className="text-blue-600 hover:underline"
-          >
-            Cadastre-se
-          </button>
-        </p>
-      </div>
-    </div>
-  );
+// Reutilizamos a interface ou definimos uma nova mais simples
+interface LoginData {
+    email: string;
+    senha: string;
 }
+
+const Login: React.FC = () => {
+    const [loginData, setLoginData] = useState<LoginData>({
+        email: '',
+        senha: '',
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setLoginData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        // Lógica de autenticação aqui
+        console.log("Dados de Login:", loginData);
+        
+        // Simular autenticação
+        if (loginData.email && loginData.senha) {
+            alert("Login simulado com sucesso!");
+        } else {
+            alert("Por favor, preencha todos os campos.");
+        }
+    };
+
+    return (
+        <div className="app-container"> {/* Mantém o fundo turquesa claro */}
+            <header className="header"> {/* Mantém o cabeçalho turquesa escuro */}
+                <div className="logo">Logo Nallo</div>
+            </header>
+            
+            <main className="main-content"> {/* Centraliza o card */}
+                <div className="card-cadastro"> {/* Reutilizamos o estilo do card de cadastro */}
+                    <h2 className="card-title-login">Entre</h2> {/* Título "Entre" */}
+                    <form className="login-form" onSubmit={handleSubmit}>
+                        
+                        {/* Campo Email */}
+                        <div className="input-group">
+                            <label htmlFor="email">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                value={loginData.email}
+                                onChange={handleChange}
+                                required 
+                            />
+                        </div>
+                        
+                        {/* Campo Senha */}
+                        <div className="input-group">
+                            <label htmlFor="senha">Senha</label>
+                            <input 
+                                type="password" 
+                                id="senha" 
+                                name="senha" 
+                                value={loginData.senha}
+                                onChange={handleChange}
+                                required 
+                            />
+                        </div>
+                        
+                      <button type="submit" className="btn-entrar">Entrar</button>
+                    </form>
+                    
+                    <p className="register-text">
+                        Não tem conta? 
+                        <Link href="/cadastro" className="register-link">
+                            Cadastre-se
+                        </Link>
+                        {/* Se não estiver usando Next.js, use:
+                        <a href="/cadastro" className="register-link">Cadastre-se</a> */}
+                    </p>
+                    {/* ------------------------------- */}
+
+                </div>
+            </main>
+        </div>
+    );
+}
+
+export default Login;
