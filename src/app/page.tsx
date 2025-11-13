@@ -38,7 +38,10 @@ const Login: React.FC = () => {
     return (
         <div className="app-container"> {/* Mantém o fundo turquesa claro */}
             <header className="header"> {/* Mantém o cabeçalho turquesa escuro */}
-                <div className="logo">Logo Nallo</div>
+                
+                <img src="/img/Nailo1.png" alt="Descrição" 
+                width={50}height={50}/>
+
             </header>
             
             <main className="main-content"> {/* Centraliza o card */}
@@ -71,19 +74,19 @@ const Login: React.FC = () => {
                                 required 
                             />
                         </div>
+
                         
-                      <button type="submit" className="btn-entrar">Entrar</button>
-                    </form>
-                    
+                      <button type="submit" className="btn-entrar">Entrar</button><br />
+                      
+
                     <p className="register-text">
                         Não tem conta? 
-                        <Link href="/cadastro" className="register-link">
-                            Cadastre-se
-                        </Link>
-                        {/* Se não estiver usando Next.js, use:
-                        <a href="/cadastro" className="register-link">Cadastre-se</a> */}
+                        
+                        <a href="/cadastro" className="aqua-link">Cadastre-se</a> 
                     </p>
-                    {/* ------------------------------- */}
+                    </form>
+
+                    
 
                 </div>
             </main>
