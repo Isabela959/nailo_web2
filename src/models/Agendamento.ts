@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IAgendamento extends Document {
+  _agendamentoId: mongoose.Types.ObjectId;
   clienteId: mongoose.Types.ObjectId;
   profissionalId: mongoose.Types.ObjectId;
   servicoId: mongoose.Types.ObjectId;
@@ -12,6 +13,7 @@ export interface IAgendamento extends Document {
 }
 
 const AgendamentoSchema = new Schema<IAgendamento>({
+  _agendamentoId: { type: Schema.Types.ObjectId,required:true },
   clienteId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   profissionalId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   servicoId: { type: Schema.Types.ObjectId, ref: "Servico", required: true },
